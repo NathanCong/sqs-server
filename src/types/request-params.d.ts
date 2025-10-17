@@ -1,0 +1,3 @@
+interface AskStreamRequestParams {
+  question: string;
+}
