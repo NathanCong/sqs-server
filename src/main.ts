@@ -1,0 +1,22 @@
+import dotenv from 'dotenv';
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
+import router from '@/router';
+
+// 加载环境变量
+dotenv.config();
+
+// 创建 koa 实例
+const app = new Koa();
+
+// 应用中间件
+app.use(bodyParser());
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+// 启动服务
+const { SERVICE_HOST, SERVICE_PORT } = process.env;
+
+app.listen(Number(SERVICE_PORT), SERVICE_HOST, () => {
+  console.log(`\nServer is running at http://${SERVICE_HOST}:${SERVICE_PORT}`);
+});
