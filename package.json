@@ -24,6 +24,7 @@
     ]
   },
   "dependencies": {
+    "@koa/cors": "^5.0.0",
     "@koa/router": "^14.0.0",
     "@types/koa-bodyparser": "^4.3.12",
     "dotenv": "^17.2.3",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@types/koa": "^3.0.0",
+    "@types/koa__cors": "^5.0.0",
     "@types/koa__router": "^12.0.4",
     "@types/node": "^24.8.0",
     "@typescript-eslint/eslint-plugin": "^8.46.1",
