@@ -30,7 +30,7 @@ export default class AssistantService {
   }
 
   /**
-   * 技术交底书撰写
+   * 技术交底书撰写服务
    */
   static async helperTDDStream(
     params: HelperTDDStreamRequestParams,
@@ -38,6 +38,24 @@ export default class AssistantService {
   ): Promise<void> {
     return new Promise((resolve, reject) => {
       postForStream('/Service/disclosure/stream', params)
+        .then(res => {
+          res.data.on('data', (chunk: Buffer) => onChunk(chunk));
+          res.data.on('end', () => resolve());
+          res.data.on('error', (err: Error) => reject(err));
+        })
+        .catch(err => reject(err));
+    });
+  }
+
+  /**
+   * 专利撰写服务
+   */
+  static async helperTPStream(
+    params: HelperTPStreamRequestParams,
+    onChunk: (chunk: Buffer) => void
+  ): Promise<void> {
+    return new Promise((resolve, reject) => {
+      postForStream('/Service/patent/stream', params)
         .then(res => {
           res.data.on('data', (chunk: Buffer) => onChunk(chunk));
           res.data.on('end', () => resolve());

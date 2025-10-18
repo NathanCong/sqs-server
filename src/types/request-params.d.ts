@@ -9,3 +9,7 @@ interface AnalysisSemanticsRequestParams {
 interface HelperTDDStreamRequestParams {
   question: string;
 }
+
+interface HelperTPStreamRequestParams {
+  question: string;
+}
