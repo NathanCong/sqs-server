@@ -50,8 +50,8 @@ export default class AssistantService {
   /**
    * 专利撰写服务
    */
-  static async helperTPStream(
-    params: HelperTPStreamRequestParams,
+  static async helperPatentStream(
+    params: HelperPatentStreamRequestParams,
     onChunk: (chunk: Buffer) => void
   ): Promise<void> {
     return new Promise((resolve, reject) => {

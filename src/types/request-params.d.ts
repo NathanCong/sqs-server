@@ -10,6 +10,6 @@ interface HelperTDDStreamRequestParams {
   question: string;
 }
 
-interface HelperTPStreamRequestParams {
+interface HelperPatentStreamRequestParams {
   question: string;
 }
