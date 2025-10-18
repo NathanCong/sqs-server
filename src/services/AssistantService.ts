@@ -32,8 +32,8 @@ export default class AssistantService {
   /**
    * 技术交底书撰写服务
    */
-  static async helperTDDStream(
-    params: HelperTDDStreamRequestParams,
+  static async helperDisclosureStream(
+    params: HelperDisclosureStreamRequestParams,
     onChunk: (chunk: Buffer) => void
   ): Promise<void> {
     return new Promise((resolve, reject) => {

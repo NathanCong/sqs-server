@@ -6,7 +6,7 @@ interface AnalysisSemanticsRequestParams {
   question: string;
 }
 
-interface HelperTDDStreamRequestParams {
+interface HelperDisclosureStreamRequestParams {
   question: string;
 }
 

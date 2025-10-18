@@ -2,7 +2,7 @@ import type { Context } from 'koa';
 import AssistantService from '@/services/AssistantService';
 import { PassThrough } from 'stream';
 
-export default class HelperTDDStreamController {
+export default class HelperDisclosureStreamController {
   static index(ctx: Context) {
     // 设置 SSE 响应头
     ctx.set('Content-Type', 'text/event-stream');
@@ -16,9 +16,9 @@ export default class HelperTDDStreamController {
     ctx.body = stream;
 
     // 处理数据流
-    const requestParams = ctx.request.body as HelperTDDStreamRequestParams;
+    const requestParams = ctx.request.body as HelperDisclosureStreamRequestParams;
     const onChunk = (chunk: Buffer) => stream.write(chunk.toString('utf-8'));
-    AssistantService.helperTDDStream(requestParams, onChunk)
+    AssistantService.helperDisclosureStream(requestParams, onChunk)
       .catch(err => {
         console.error('\nRequest error:', err);
       })
