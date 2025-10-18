@@ -8,7 +8,8 @@ export default class AnalysisSemanticsController {
     const { question } = ctx.request.body as AnalysisSemanticsRequestParams;
     try {
       const res = await AssistantService.analysisSemantics(question);
-      ctx.body = formatSuccessResponse(res.data);
+      const { result } = res.data;
+      ctx.body = formatSuccessResponse(result);
     } catch (error) {
       console.error(error instanceof Error ? error.message : '未知错误');
       ctx.body = formatFailureResponse(error instanceof Error ? error.message : '未知错误');

@@ -2,6 +2,7 @@ import Router from '@koa/router';
 import TestController from '@/controllers/TestController';
 import AskStreamController from '@/controllers/AskStreamController';
 import AnalysisSemanticsController from '@/controllers/AnalysisSemanticsController';
+import HelperTDDStreamController from '@/controllers/HelperTDDStreamController';
 
 const router = new Router();
 
@@ -11,5 +12,7 @@ router.get('/test', TestController.index);
 router.post('/ask/stream', AskStreamController.index);
 // 大模型 - 语义分析接口
 router.post('/analysis/semantics', AnalysisSemanticsController.index);
+// 大模型 - 交底书撰写
+router.post('/helper/tdd/stream', HelperTDDStreamController.index);
 
 export default router;

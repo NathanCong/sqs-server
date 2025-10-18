@@ -5,3 +5,7 @@ interface AskStreamRequestParams {
 interface AnalysisSemanticsRequestParams {
   question: string;
 }
+
+interface HelperTDDStreamRequestParams {
+  question: string;
+}
