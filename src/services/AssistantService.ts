@@ -1,11 +1,11 @@
-import { postForStream } from '@/utils/request';
+import { postForStream, post } from '@/utils/request';
 
 /**
  * 大模型助理服务
  */
 export default class AssistantService {
   /**
-   * 咨询服务
+   * 提问服务
    */
   static async askStream(
     params: AskStreamRequestParams,
@@ -20,5 +20,12 @@ export default class AssistantService {
         })
         .catch(err => reject(err));
     });
+  }
+
+  /**
+   * 语义分析服务
+   */
+  static analysisSemantics(question: string) {
+    return post('/intent/classify', { question });
   }
 }
