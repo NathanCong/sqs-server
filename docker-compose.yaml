@@ -6,4 +6,7 @@ services:
     restart: unless-stopped
     ports:
       - 7000:7000
+    working_dir: /app
+    environment:
+      - NODE_ENV=production
     command: ["pnpm", "start"]
