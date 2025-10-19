@@ -1,5 +1,11 @@
 import axios from 'axios';
-import type { AxiosInstance, InternalAxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
+import type {
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+  AxiosRequestConfig,
+  AxiosError,
+  AxiosResponse,
+} from 'axios';
 
 function getBaseUrl() {
   return process.env.BASE_URL;
@@ -10,7 +16,7 @@ function getBaseUrl() {
  */
 const request: AxiosInstance = axios.create({
   baseURL: getBaseUrl(),
-  timeout: 60000,
+  timeout: 1000 * 100,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -43,8 +49,8 @@ export function get(url: string, params?: unknown) {
 /**
  * POST 请求（默认 JSON）
  */
-export function post(url: string, data?: unknown) {
-  return request.post(url, data);
+export function post(url: string, data?: unknown, options?: AxiosRequestConfig) {
+  return request.post(url, data, options);
 }
 
 /**

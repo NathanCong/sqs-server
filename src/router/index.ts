@@ -4,6 +4,7 @@ import AskStreamController from '@/controllers/AskStreamController';
 import AnalysisSemanticsController from '@/controllers/AnalysisSemanticsController';
 import HelperDisclosureStreamController from '@/controllers/HelperDisclosureStreamController';
 import HelperPatentStreamController from '@/controllers/HelperPatentStreamController';
+import SearchPatentsController from '@/controllers/SearchPatentsController';
 
 const router = new Router();
 
@@ -13,9 +14,13 @@ router.get('/test', TestController.index);
 router.post('/ask/stream', AskStreamController.index);
 // 大模型 - 语义分析接口
 router.post('/analysis/semantics', AnalysisSemanticsController.index);
-// 大模型 - 交底书撰写
+// 大模型 - 交底书撰写接口
 router.post('/helper/disclosure/stream', HelperDisclosureStreamController.index);
-// 大模型 - 专利撰写
+// 大模型 - 专利撰写接口
 router.post('/helper/patent/stream', HelperPatentStreamController.index);
+// 大模型 - 检索策略接口
+// router.post('', () => {});
+// 万象云 - 检索专利接口
+router.post('/search/patents', SearchPatentsController.index);
 
 export default router;

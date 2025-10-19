@@ -13,3 +13,7 @@ interface HelperDisclosureStreamRequestParams {
 interface HelperPatentStreamRequestParams {
   question: string;
 }
+
+interface SearchPatentsRequestParams {
+  [key: string]: string;
+}
