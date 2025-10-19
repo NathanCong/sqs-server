@@ -1,0 +1,9 @@
+services:
+  sqs-server:
+    build: .
+    image: sqs-server:latest
+    container_name: sqs-server
+    restart: unless-stopped
+    ports:
+      - 7000:7000
+    command: ["pnpm", "start"]
