@@ -64,4 +64,20 @@ export default class AssistantService {
         .catch(err => reject(err));
     });
   }
+
+  /**
+   * 搜索策略生成服务
+   */
+  static async searchStrategy(question: string) {
+    try {
+      const res = await post('/Service/strategy', { question });
+      const { ok, result } = res.data;
+      if (ok) {
+        return result;
+      }
+      throw new Error('搜索策略生成服务异常');
+    } catch (error) {
+      throw error;
+    }
+  }
 }

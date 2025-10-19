@@ -17,3 +17,7 @@ interface HelperPatentStreamRequestParams {
 interface SearchPatentsRequestParams {
   [key: string]: string;
 }
+
+interface SearchStrategyRequestParams {
+  question: string;
+}
