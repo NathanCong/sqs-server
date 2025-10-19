@@ -94,7 +94,7 @@ export default class AssistantService {
    */
   static async searchStrategy(question: string) {
     try {
-      const res = await post('/Service/strategy', { question });
+      const res = await post('/Service/strategy', { question: encodeURIComponent(question) });
       const { ok, result } = res.data;
       if (ok) {
         return result;
