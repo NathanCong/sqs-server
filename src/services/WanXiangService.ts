@@ -29,8 +29,8 @@ export default class WanXiangService {
       }
       // 请求有错误
       throw new Error(msg);
-    } catch (error) {
-      throw error;
+    } catch (err) {
+      throw err;
     }
   }
 
@@ -57,8 +57,8 @@ export default class WanXiangService {
       }
       // 其他错误
       throw new Error(msg);
-    } catch (error) {
-      throw error;
+    } catch (err) {
+      throw err;
     }
   }
 }

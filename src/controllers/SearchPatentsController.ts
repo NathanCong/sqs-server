@@ -16,9 +16,9 @@ export default class SearchPatentsController {
       const res = await WanXiangService.searchPatents(params);
       // 返回结果
       ctx.body = formatSuccessResponse(res);
-    } catch (error) {
-      if (error instanceof Error) {
-        ctx.body = formatFailureResponse(error.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        ctx.body = formatFailureResponse(err.message);
       } else {
         ctx.body = formatFailureResponse('检索专利服务异常');
       }

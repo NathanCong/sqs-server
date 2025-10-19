@@ -38,8 +38,8 @@ export default class AssistantService {
         return result;
       }
       throw new Error('语义分析服务异常');
-    } catch (error) {
-      throw error;
+    } catch (err) {
+      throw err;
     }
   }
 
@@ -100,8 +100,8 @@ export default class AssistantService {
         return result;
       }
       throw new Error('搜索策略生成服务异常');
-    } catch (error) {
-      throw error;
+    } catch (err) {
+      throw err;
     }
   }
 }

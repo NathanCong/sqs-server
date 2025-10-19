@@ -16,9 +16,9 @@ export default class SearchStrategyController {
       const res = await AssistantService.searchStrategy(question);
       // 返回结果
       ctx.body = formatSuccessResponse(res);
-    } catch (error) {
-      if (error instanceof Error) {
-        ctx.body = formatFailureResponse(error.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        ctx.body = formatFailureResponse(err.message);
       } else {
         ctx.body = formatFailureResponse('搜索策略生成服务异常');
       }
