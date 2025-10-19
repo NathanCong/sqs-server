@@ -9,6 +9,7 @@ import SearchStrategyController from '@/controllers/SearchStrategyController';
 
 const router = new Router();
 
+// api 测试接口
 router.get('/test', TestController.index);
 
 // 大模型 - 提问接口

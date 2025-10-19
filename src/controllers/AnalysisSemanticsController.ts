@@ -2,17 +2,26 @@ import type { Context } from 'koa';
 import AssistantService from '@/services/AssistantService';
 import { formatSuccessResponse, formatFailureResponse } from '@/utils/response';
 
+/**
+ * 语义分析接口 Controller
+ *
+ * 对应路由: /analysis/semantics POST
+ */
 export default class AnalysisSemanticsController {
   static async index(ctx: Context) {
-    // 准备请求参数
-    const { question } = ctx.request.body as AnalysisSemanticsRequestParams;
     try {
+      // 准备请求参数
+      const { question } = ctx.request.body as AnalysisSemanticsRequestParams;
+      // 发起请求
       const res = await AssistantService.analysisSemantics(question);
-      const { result } = res.data;
-      ctx.body = formatSuccessResponse(result);
-    } catch (error) {
-      console.error(error instanceof Error ? error.message : '未知错误');
-      ctx.body = formatFailureResponse(error instanceof Error ? error.message : '未知错误');
+      // 返回结果
+      ctx.body = formatSuccessResponse(res);
+    } catch (err) {
+      if (err instanceof Error) {
+        ctx.body = formatFailureResponse(err.message);
+      } else {
+        ctx.body = formatFailureResponse('语义分析服务异常');
+      }
     }
   }
 }

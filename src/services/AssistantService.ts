@@ -25,8 +25,17 @@ export default class AssistantService {
   /**
    * 语义分析服务
    */
-  static analysisSemantics(question: string) {
-    return post('/intent/classify', { question });
+  static async analysisSemantics(question: string) {
+    try {
+      const res = await post('/intent/classify', { question });
+      const { ok, result } = res.data;
+      if (ok) {
+        return result;
+      }
+      throw new Error('语义分析服务异常');
+    } catch (error) {
+      throw error;
+    }
   }
 
   /**
