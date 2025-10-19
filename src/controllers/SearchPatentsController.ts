@@ -1,0 +1,32 @@
+import type { Context } from 'koa';
+import WanXiangService from '@/services/WanXiangService';
+import { formatSuccessResponse, formatFailureResponse } from '@/utils/response';
+
+/**
+ * 检索专利接口 Controller
+ *
+ * 对应路由: /search/patents POST
+ */
+export default class SearchPatentsController {
+  static async index(ctx: Context) {
+    try {
+      // 获取请求参数
+      const params = ctx.request.body as SearchPatentsRequestParams;
+      // 发起请求
+      const res = await WanXiangService.searchPatents(params);
+      const { patents, total_count } = res as SearchPatentsResponseData;
+      // 返回结果
+      ctx.body = formatSuccessResponse({
+        total: total_count,
+        pageSize: patents.length,
+        list: patents,
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        ctx.body = formatFailureResponse(err.message);
+      } else {
+        ctx.body = formatFailureResponse('检索专利服务异常');
+      }
+    }
+  }
+}

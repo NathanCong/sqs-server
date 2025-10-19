@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    /* 语言和环境 */
+    "target": "ES2022",
+    "lib": ["ES2022"],
+
+    /* 模块解析 */
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
+    /* 构建选项 */
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+
+    /* 互操作性 */
+    "useDefineForClassFields": true,
+    "skipLibCheck": true,
+
+    /* 类型检查 */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* JavaScript 支持 */
+    "allowJs": true,
+    "checkJs": false
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
