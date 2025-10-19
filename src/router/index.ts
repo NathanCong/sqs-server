@@ -14,7 +14,7 @@ router.get('/test', TestController.index);
 
 // 大模型 - 提问接口
 router.post('/ask/stream', AskStreamController.index);
-// 大模型 - 语义分析接口
+// 大模型 - 语义分析接口（已经优化）
 router.post('/analysis/semantics', AnalysisSemanticsController.index);
 // 大模型 - 交底书撰写接口
 router.post('/helper/disclosure/stream', HelperDisclosureStreamController.index);
