@@ -14,8 +14,13 @@ export default class SearchPatentsController {
       const params = ctx.request.body as SearchPatentsRequestParams;
       // 发起请求
       const res = await WanXiangService.searchPatents(params);
+      const { patents, total_count } = res as SearchPatentsResponseData;
       // 返回结果
-      ctx.body = formatSuccessResponse(res);
+      ctx.body = formatSuccessResponse({
+        total: total_count,
+        pageSize: patents.length,
+        list: patents,
+      });
     } catch (err) {
       if (err instanceof Error) {
         ctx.body = formatFailureResponse(err.message);
