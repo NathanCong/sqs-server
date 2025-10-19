@@ -1,6 +1,6 @@
 import Router from '@koa/router';
 import TestController from '@/controllers/TestController';
-import AskStreamController from '@/controllers/AskStreamController';
+import ConsultStreamController from '@/controllers/ConsultStreamController';
 import AnalysisSemanticsController from '@/controllers/AnalysisSemanticsController';
 import HelperDisclosureStreamController from '@/controllers/HelperDisclosureStreamController';
 import HelperPatentStreamController from '@/controllers/HelperPatentStreamController';
@@ -12,8 +12,8 @@ const router = new Router();
 // api 测试接口
 router.get('/test', TestController.index);
 
-// 大模型 - 提问接口
-router.post('/ask/stream', AskStreamController.index);
+// 大模型 - 咨询接口（已经优化）
+router.post('/consult/stream', ConsultStreamController.index);
 // 大模型 - 语义分析接口（已经优化）
 router.post('/analysis/semantics', AnalysisSemanticsController.index);
 // 大模型 - 交底书撰写接口

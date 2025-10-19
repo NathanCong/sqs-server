@@ -7,19 +7,24 @@ export default class AssistantService {
   /**
    * 提问服务
    */
-  static async askStream(
-    params: AskStreamRequestParams,
+  static async consultStream(
+    params: ConsultStreamRequestParams,
     onChunk: (chunk: Buffer) => void
   ): Promise<void> {
-    return new Promise((resolve, reject) => {
-      postForStream('/Service/disclosure/stream', params)
-        .then(res => {
-          res.data.on('data', (chunk: Buffer) => onChunk(chunk));
-          res.data.on('end', () => resolve());
-          res.data.on('error', (err: Error) => reject(err));
-        })
-        .catch(err => reject(err));
-    });
+    try {
+      // 发起请求
+      const res = await postForStream('/Service/disclosure/stream', params);
+      // 获取数据
+      const { data } = res;
+      // 设置监听
+      data.on('data', (chunk: Buffer) => onChunk(chunk));
+      data.on('end', () => {});
+      data.on('error', (err: Error) => {
+        throw err.message;
+      });
+    } catch (err) {
+      throw err;
+    }
   }
 
   /**

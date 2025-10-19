@@ -1,4 +1,4 @@
-interface AskStreamRequestParams {
+interface ConsultStreamRequestParams {
   question: string;
 }
 
