@@ -1,4 +1,5 @@
 import { postForStream, post } from '@/utils/request';
+import WanXiangService from './WanXiangService';
 
 /**
  * 大模型助理服务
@@ -23,17 +24,21 @@ export default class AssistantService {
     //   throw err;
     // }
     return new Promise((resolve, reject) => {
-      postForStream('/Agent/chart/stream', params)
-        .then(res => {
-          res.data.on('data', (chunk: Buffer) => onChunk(chunk));
-          res.data.on('end', () => {
-            post('http://127.0.0.1:7000/file/read')
-              .then(res => {
-                resolve(res);
-              })
-              .catch(err => reject(err));
-          });
-          res.data.on('error', (err: Error) => reject(err));
+      WanXiangService.getAccessToken()
+        .then(access_token => {
+          postForStream('/Agent/chart/stream', { ...params, access_token })
+            .then(res => {
+              res.data.on('data', (chunk: Buffer) => onChunk(chunk));
+              res.data.on('end', () => {
+                post('http://127.0.0.1:7000/file/read')
+                  .then(res => {
+                    resolve(res);
+                  })
+                  .catch(err => reject(err));
+              });
+              res.data.on('error', (err: Error) => reject(err));
+            })
+            .catch(err => reject(err));
         })
         .catch(err => reject(err));
     });
