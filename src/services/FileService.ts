@@ -37,7 +37,7 @@ export default class FileService {
       await fs.promises.unlink(filePath);
     } catch (err) {
       // throw err;
-      console.log(err);
+      console.warn(err);
     }
   }
 
@@ -56,7 +56,8 @@ export default class FileService {
 
       return jsonData;
     } catch (err) {
-      throw err;
+      // throw err;
+      console.warn(err);
     }
   }
 }
