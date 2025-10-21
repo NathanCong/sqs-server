@@ -29,13 +29,7 @@ export default class AssistantService {
           postForStream('/Agent/chart/stream', { ...params, access_token })
             .then(res => {
               res.data.on('data', (chunk: Buffer) => onChunk(chunk));
-              res.data.on('end', () => {
-                post('http://127.0.0.1:7000/file/read')
-                  .then(res => {
-                    resolve(res);
-                  })
-                  .catch(err => reject(err));
-              });
+              res.data.on('end', () => resolve(null));
               res.data.on('error', (err: Error) => reject(err));
             })
             .catch(err => reject(err));
