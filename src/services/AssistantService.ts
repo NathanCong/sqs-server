@@ -26,7 +26,7 @@ export default class AssistantService {
     //   throw err;
     // }
     return new Promise((resolve, reject) => {
-      postForStream('/Service/disclosure/stream', params)
+      postForStream('/Agent/chart/stream', params)
         .then(res => {
           res.data.on('data', (chunk: Buffer) => onChunk(chunk));
           res.data.on('end', () => resolve());
