@@ -9,4 +9,4 @@ services:
     working_dir: /app
     environment:
       - NODE_ENV=production
-    command: ["pnpm", "start"]
+    command: ['pnpm', 'start']

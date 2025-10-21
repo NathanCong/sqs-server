@@ -7,10 +7,7 @@ export default class AssistantService {
   /**
    * 提问服务
    */
-  static async consultStream(
-    params: ConsultStreamRequestParams,
-    onChunk: (chunk: Buffer) => void
-  ): Promise<void> {
+  static async consultStream(params: ConsultStreamRequestParams, onChunk: (chunk: Buffer) => void) {
     // try {
     //   // 发起请求
     //   const res = await postForStream('/Service/disclosure/stream', params);
@@ -29,7 +26,13 @@ export default class AssistantService {
       postForStream('/Agent/chart/stream', params)
         .then(res => {
           res.data.on('data', (chunk: Buffer) => onChunk(chunk));
-          res.data.on('end', () => resolve());
+          res.data.on('end', () => {
+            post('http://127.0.0.1:7000/file/read')
+              .then(res => {
+                resolve(res);
+              })
+              .catch(err => reject(err));
+          });
           res.data.on('error', (err: Error) => reject(err));
         })
         .catch(err => reject(err));
