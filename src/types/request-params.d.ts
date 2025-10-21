@@ -24,5 +24,5 @@ interface SearchStrategyRequestParams {
 
 interface FileGenerateRequestParams {
   fileName?: string;
-  jsonString: string;
+  jsonData: unknown;
 }

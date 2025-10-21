@@ -9,9 +9,14 @@ export default class FileGenerateController {
   static async generateJson(ctx: Context) {
     try {
       // 准备请求参数
-      const { jsonString } = ctx.request.body as FileGenerateRequestParams;
+      const { jsonData } = ctx.request.body as FileGenerateRequestParams;
+      console.log('jsonData', JSON.stringify(jsonData));
       // 发起请求
-      const res = await FileService.generateJsonFile('./files', 'data.json', jsonString);
+      const res = await FileService.generateJsonFile(
+        './files',
+        'data.json',
+        JSON.stringify(jsonData)
+      );
       // 返回结果
       ctx.body = formatSuccessResponse({ filePath: res });
     } catch (err) {
