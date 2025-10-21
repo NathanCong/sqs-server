@@ -6,6 +6,7 @@ import HelperDisclosureStreamController from '@/controllers/HelperDisclosureStre
 import HelperPatentStreamController from '@/controllers/HelperPatentStreamController';
 import SearchPatentsController from '@/controllers/SearchPatentsController';
 import SearchStrategyController from '@/controllers/SearchStrategyController';
+import FileController from '@/controllers/FileController';
 
 const router = new Router();
 
@@ -24,5 +25,11 @@ router.post('/helper/patent/stream', HelperPatentStreamController.index);
 router.post('/search/strategy', SearchStrategyController.index);
 // 万象云 - 检索专利接口（已经优化）
 router.post('/search/patents', SearchPatentsController.index);
+// 文件生成接口
+router.post('/file/generate', FileController.generateJson);
+// 文件清理接口
+router.post('/file/clean', FileController.cleanJson);
+// 文件读取接口
+router.post('/file/read', FileController.readJson);
 
 export default router;

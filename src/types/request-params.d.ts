@@ -21,3 +21,8 @@ interface SearchPatentsRequestParams {
 interface SearchStrategyRequestParams {
   question: string;
 }
+
+interface FileGenerateRequestParams {
+  fileName?: string;
+  jsonString: string;
+}
