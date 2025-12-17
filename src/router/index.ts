@@ -1,5 +1,4 @@
 import Router from '@koa/router';
-import TestController from '@/controllers/TestController';
 import ConsultStreamController from '@/controllers/ConsultStreamController';
 import AnalysisSemanticsController from '@/controllers/AnalysisSemanticsController';
 import HelperDisclosureStreamController from '@/controllers/HelperDisclosureStreamController';
@@ -9,9 +8,6 @@ import SearchStrategyController from '@/controllers/SearchStrategyController';
 import FileController from '@/controllers/FileController';
 
 const router = new Router();
-
-// api 测试接口
-router.get('/test', TestController.index);
 
 // 大模型 - 咨询接口
 router.post('/consult/stream', ConsultStreamController.index);
