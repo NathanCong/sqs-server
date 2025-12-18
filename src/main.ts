@@ -1,8 +1,11 @@
-import '@/dotenv';
+import dotenv from 'dotenv';
 import Koa from 'koa';
 import cors from '@/middlewares/cors';
 import bodyParser from 'koa-bodyparser';
 import router from '@/router';
+
+// 加载环境变量
+dotenv.config();
 
 // 创建 koa 实例
 const app = new Koa();

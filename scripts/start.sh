@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# 启动 Clash 服务
+# 启动服务
 sudo docker compose up -d
