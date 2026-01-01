@@ -8,7 +8,6 @@ import type {
 } from 'axios';
 
 function getBaseUrl() {
-  console.log('process.env.BASE_URL', process.env.BASE_URL);
   return process.env.BASE_URL;
 }
 
