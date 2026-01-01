@@ -5,6 +5,7 @@ import HelperPatentStreamController from '@/controllers/HelperPatentStreamContro
 import SearchPatentsController from '@/controllers/SearchPatentsController';
 import SearchStrategyController from '@/controllers/SearchStrategyController';
 import LoginController from '@/controllers/LoginController';
+import PocController from '@/controllers/PocController';
 
 const router = new Router();
 
@@ -24,5 +25,8 @@ router.post('/search/patents', SearchPatentsController.index);
 router.post('/login', LoginController.login);
 // 注册
 router.post('/register', LoginController.register);
+
+// 用户评价
+router.post('/poc', PocController.poc);
 
 export default router;
