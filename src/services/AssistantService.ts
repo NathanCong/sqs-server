@@ -66,6 +66,7 @@ export default class AssistantService {
     onChunk: (chunk: Buffer) => void
   ): Promise<void> {
     return new Promise((resolve, reject) => {
+      console.log('\nConsultStreamRequestParams', params);
       postForStream('/Agent/chart/stream', params)
         .then(res => {
           res.data.on('data', (chunk: Buffer) => onChunk(chunk));
