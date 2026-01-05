@@ -1,11 +1,17 @@
-import { post } from '@/utils/request';
+import { post, get } from '@/utils/request';
 
 /**
  * 万象云服务
  */
 export default class WanXiangService {
+  /**
+   * AccessToken
+   */
   static accessToken = '';
 
+  /**
+   * 获取 AccessToken
+   */
   static async getAccessToken(): Promise<string> {
     const requestOptions = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -22,17 +28,20 @@ export default class WanXiangService {
         requestOptions
       );
       const { result_code, access_token, msg } = res.data;
-      // 请求成功
-      if (String(result_code) === '200') {
-        return access_token;
+      // 请求失败，报错
+      if (String(result_code) !== '200') {
+        throw new Error(msg);
       }
-      // 请求有错误
-      throw new Error(msg);
+      // 请求成功，返回 token
+      return access_token;
     } catch (err) {
       throw err;
     }
   }
 
+  /**
+   * 专利检索 API
+   */
   static async searchPatents(params: SearchPatentsRequestParams): Promise<unknown> {
     const requestOptions = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -50,12 +59,36 @@ export default class WanXiangService {
         WanXiangService.accessToken = await WanXiangService.getAccessToken();
         return await WanXiangService.searchPatents(params);
       }
-      // 请求成功
-      if (String(result_code) === '200') {
-        return data;
+      // 请求失败，报错
+      if (String(result_code) !== '200') {
+        throw new Error(msg);
       }
-      // 其他错误
-      throw new Error(msg);
+      // 请求成功，返回 data
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  /**
+   * 专利详情 - 说明书 API
+   */
+  static async getPatentManual(params: { id: string }): Promise<unknown> {
+    const requestParams = { access_token: WanXiangService.accessToken };
+    try {
+      const res = await get(`https://api.wanxiangyun.net/api/db/desc/${params.id}`, requestParams);
+      const { result_code, msg, data } = res.data;
+      // token 失效
+      if (String(result_code) === '40004') {
+        WanXiangService.accessToken = await WanXiangService.getAccessToken();
+        return await WanXiangService.getPatentManual(params);
+      }
+      // 请求失败，报错
+      if (String(result_code) !== '200') {
+        throw new Error(msg);
+      }
+      // 请求成功，返回 data
+      return data;
     } catch (err) {
       throw err;
     }

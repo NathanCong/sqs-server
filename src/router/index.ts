@@ -6,6 +6,7 @@ import SearchPatentsController from '@/controllers/SearchPatentsController';
 import SearchStrategyController from '@/controllers/SearchStrategyController';
 import LoginController from '@/controllers/LoginController';
 import PocController from '@/controllers/PocController';
+import WanXiangController from '@/controllers/WanXiangController';
 
 const router = new Router();
 
@@ -18,8 +19,6 @@ router.post('/consult/stream', ConsultStreamController.index);
 
 // 大模型 - 检索策略接口（已经优化）
 router.post('/search/strategy', SearchStrategyController.index);
-// 万象云 - 检索专利接口（已经优化）
-router.post('/search/patents', SearchPatentsController.index);
 
 // 登录
 router.post('/login', LoginController.login);
@@ -28,5 +27,10 @@ router.post('/register', LoginController.register);
 
 // 用户评价
 router.post('/poc', PocController.poc);
+
+// 万象云 - 检索专利接口（已经优化）
+router.post('/search/patents', SearchPatentsController.index);
+// 万象云 - 专利详情 - 说明书 API
+router.post('/wanxiang/getPatentManual', WanXiangController.getPatentManual);
 
 export default router;
