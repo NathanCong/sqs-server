@@ -7,6 +7,7 @@ import SearchStrategyController from '@/controllers/SearchStrategyController';
 import LoginController from '@/controllers/LoginController';
 import PocController from '@/controllers/PocController';
 import WanXiangController from '@/controllers/WanXiangController';
+import SearchDisclosureController from '@/controllers/SearchDisclosureController';
 
 const router = new Router();
 
@@ -16,6 +17,8 @@ router.post('/helper/patent/stream', HelperPatentStreamController.index);
 router.post('/helper/disclosure/stream', HelperDisclosureStreamController.index);
 // 大模型 - 对话接口（新）
 router.post('/consult/stream', ConsultStreamController.index);
+// 大模型 - 交底书查新接口
+router.post('/search/disclosure', SearchDisclosureController.index);
 
 // 大模型 - 检索策略接口（已经优化）
 router.post('/search/strategy', SearchStrategyController.index);
