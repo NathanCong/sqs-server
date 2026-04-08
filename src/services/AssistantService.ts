@@ -67,7 +67,8 @@ export default class AssistantService {
   ): Promise<void> {
     return new Promise((resolve, reject) => {
       console.log('\nConsultStreamRequestParams', params);
-      postForStream('/Agent/chart/stream', params)
+      // postForStream('/Agent/chart/stream', params)
+      postForStream('/chat', params)
         .then(res => {
           res.data.on('data', (chunk: Buffer) => onChunk(chunk));
           res.data.on('end', () => resolve());
