@@ -16,7 +16,7 @@ function getBaseUrl() {
  */
 const request: AxiosInstance = axios.create({
   baseURL: getBaseUrl(),
-  timeout: 1000 * 100,
+  timeout: 1000 * 60 * 5, // 5分钟
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

@@ -1,5 +1,14 @@
 import { post, get } from '@/utils/request';
 
+export interface SearchPatentsRequestParams {
+  [key: string]: string;
+}
+
+export interface SearchPatentsResponseData {
+  patents: unknown[];
+  total_count: number;
+}
+
 /**
  * 万象云服务
  */

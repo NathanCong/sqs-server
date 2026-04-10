@@ -1,38 +1,35 @@
 import Router from '@koa/router';
-import ConsultStreamController from '@/controllers/ConsultStreamController';
-import HelperDisclosureStreamController from '@/controllers/HelperDisclosureStreamController';
-import HelperPatentStreamController from '@/controllers/HelperPatentStreamController';
-import SearchPatentsController from '@/controllers/SearchPatentsController';
-import SearchStrategyController from '@/controllers/SearchStrategyController';
+import AssistantController from '@/controllers/AssistantController';
 import LoginController from '@/controllers/LoginController';
 import PocController from '@/controllers/PocController';
 import WanXiangController from '@/controllers/WanXiangController';
-import SearchDisclosureController from '@/controllers/SearchDisclosureController';
 
 const router = new Router();
 
-// 大模型 - 专利撰写（新）
-router.post('/helper/patent/stream', HelperPatentStreamController.index);
-// 大模型 - 交底书撰写（新）
-router.post('/helper/disclosure/stream', HelperDisclosureStreamController.index);
-// 大模型 - 对话接口（新）
-router.post('/consult/stream', ConsultStreamController.index);
+// 大模型 - 聊天接口（stream）
+router.post('/assistant/chat/stream', AssistantController.chatStream);
+// 大模型 - 专利交底书撰写（stream）
+router.post('/assistant/helper/disclosure/stream', AssistantController.helperDisclosureStream);
+// 大模型 - 专利改写（stream）
+router.post(
+  '/assistant/helper/patent/rewrite/stream',
+  AssistantController.helperPatentRewriteStream
+);
 // 大模型 - 交底书查新接口
-router.post('/search/disclosure', SearchDisclosureController.index);
+router.post('/assistant/search/disclosure', AssistantController.searchDisclosure);
+// 大模型 - 专利撰写（stream）
+router.post('/assistant/helper/patent/stream', AssistantController.helperPatentStream);
 
-// 大模型 - 检索策略接口（已经优化）
-router.post('/search/strategy', SearchStrategyController.index);
-
-// 登录
+// 登录 - 登录
 router.post('/login', LoginController.login);
-// 注册
+// 登录 - 注册
 router.post('/register', LoginController.register);
 
-// 用户评价
+// poc - 用户评价
 router.post('/poc', PocController.poc);
 
-// 万象云 - 检索专利接口（已经优化）
-router.post('/search/patents', SearchPatentsController.index);
+// 万象云 - 检索专利 API
+router.post('/wanxiang/search/patents', WanXiangController.searchPatents);
 // 万象云 - 专利详情 - 说明书 API
 router.post('/wanxiang/getPatentManual', WanXiangController.getPatentManual);
 
