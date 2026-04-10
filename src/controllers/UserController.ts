@@ -1,18 +1,18 @@
 import type { Context } from 'koa';
-import type { RegisterParams, LoginParams } from '@/services/LoginService';
-import LoginService from '@/services/LoginService';
+import type { RegisterParams, LoginParams, PocParams } from '@/services/UserService';
+import UserService from '@/services/UserService';
 import { formatSuccessResponse, formatFailureResponse } from '@/utils/response';
 
-export default class LoginController {
+export default class UserController {
   /**
-   * 新用户注册
+   * 用户 - 注册
    */
   static async register(ctx: Context) {
     try {
       // 准备请求参数
       const { userName, userPhone, userEmail, userPassword } = ctx.request.body as RegisterParams;
       // 发起请求
-      await LoginService.register({ userName, userPhone, userEmail, userPassword });
+      await UserService.register({ userName, userPhone, userEmail, userPassword });
       // 返回结果
       ctx.body = formatSuccessResponse(null);
     } catch (err) {
@@ -21,16 +21,32 @@ export default class LoginController {
   }
 
   /**
-   * 老用户登录
+   * 用户 - 登录
    */
   static async login(ctx: Context) {
     try {
       // 准备请求参数
       const { userEmail, userPassword } = ctx.request.body as LoginParams;
       // 发起请求
-      const accessToken = await LoginService.login({ userEmail, userPassword });
+      const accessToken = await UserService.login({ userEmail, userPassword });
       // 返回结果
       ctx.body = formatSuccessResponse({ accessToken });
+    } catch (err) {
+      ctx.body = formatFailureResponse(err instanceof Error ? err.message : '未知错误');
+    }
+  }
+
+  /**
+   * 用户 - 评分
+   */
+  static async poc(ctx: Context) {
+    try {
+      // 准备请求参数
+      const params = ctx.request.body as PocParams;
+      // 发起请求
+      await UserService.poc(params);
+      // 返回结果
+      ctx.body = formatSuccessResponse(null);
     } catch (err) {
       ctx.body = formatFailureResponse(err instanceof Error ? err.message : '未知错误');
     }
