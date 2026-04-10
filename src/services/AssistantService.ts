@@ -99,11 +99,7 @@ export default class AssistantService {
   static async searchDisclosure(params: SearchDisclosureRequestParams) {
     try {
       const res = await post('/wanxiang-demo', params);
-      const { ok, result } = res.data;
-      if (ok) {
-        return result;
-      }
-      throw new Error('交底书查新服务异常');
+      return res.data;
     } catch (err) {
       throw err;
     }
