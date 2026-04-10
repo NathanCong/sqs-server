@@ -7,17 +7,17 @@ const router = new Router();
 
 // 大模型 - 聊天接口（stream）
 router.post('/assistant/chat/stream', AssistantController.chatStream);
-// 大模型 - 专利交底书撰写（stream）
-router.post('/assistant/helper/disclosure/stream', AssistantController.helperDisclosureStream);
-// 大模型 - 专利改写（stream）
+// 大模型 - 专利交底书查新接口
+router.post('/assistant/disclosure/search', AssistantController.searchDisclosure);
+// 大模型 - 专利交底书撰写接口（stream）
+router.post('/assistant/disclosure/helper/stream', AssistantController.helperDisclosureStream);
+// 大模型 - 专利撰写接口（stream）
+router.post('/assistant/patent/helper/stream', AssistantController.helperPatentStream);
+// 大模型 - 专利改写接口（stream）
 router.post(
-  '/assistant/helper/patent/rewrite/stream',
+  '/assistant/patent/rewrite/helper/stream',
   AssistantController.helperPatentRewriteStream
 );
-// 大模型 - 交底书查新接口
-router.post('/assistant/search/disclosure', AssistantController.searchDisclosure);
-// 大模型 - 专利撰写（stream）
-router.post('/assistant/helper/patent/stream', AssistantController.helperPatentStream);
 
 // 用户 - 注册
 router.post('/user/register', UserController.register);
@@ -25,6 +25,10 @@ router.post('/user/register', UserController.register);
 router.post('/user/login', UserController.login);
 // 用户 - 评分
 router.post('/user/poc', UserController.poc);
+// 用户 - 获取个人信息
+router.get('/user/info/get', UserController.getUserInfo);
+// 用户 - 更新个人信息
+router.post('/user/info/update', UserController.updateUserInfo);
 
 // 万象云 - 检索专利 API
 router.post('/wanxiang/search/patents', WanXiangController.searchPatents);
