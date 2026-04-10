@@ -1,11 +1,36 @@
 import type { Context } from 'koa';
+import type {
+  SearchPatentsRequestParams,
+  SearchPatentsResponseData,
+} from '@/services/WanXiangService';
 import WanXiangService from '@/services/WanXiangService';
 import { formatSuccessResponse, formatFailureResponse } from '@/utils/response';
 
 /**
- * 万象云接口 Controller
+ * 万象云服务 Controller
  */
 export default class WanXiangController {
+  /**
+   * 检索专利 API
+   */
+  static async searchPatents(ctx: Context) {
+    try {
+      // 获取请求参数
+      const params = ctx.request.body as SearchPatentsRequestParams;
+      // 发起请求
+      const res = await WanXiangService.searchPatents(params);
+      const { patents, total_count } = res as SearchPatentsResponseData;
+      // 返回结果
+      ctx.body = formatSuccessResponse({
+        total: total_count,
+        pageSize: patents.length,
+        list: patents,
+      });
+    } catch (err) {
+      ctx.body = formatFailureResponse(err instanceof Error ? err.message : '未知错误');
+    }
+  }
+
   /**
    * 专利详情 - 说明书 API
    */
