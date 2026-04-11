@@ -1,6 +1,7 @@
 import type { DatabaseTable } from '@/utils/Database';
 import LoginUsersTable from './LoginUsersTable';
 import UserScoresTable from './UserScoresTable';
+import UserExpressionsTable from './UserExpressionsTable';
 
 const DATABASE_TABLES: Array<DatabaseTable> = [
   {
@@ -12,6 +13,11 @@ const DATABASE_TABLES: Array<DatabaseTable> = [
     tableName: UserScoresTable.name,
     tableColumns: UserScoresTable.columns,
     tableValues: UserScoresTable.values,
+  },
+  {
+    tableName: UserExpressionsTable.name,
+    tableColumns: UserExpressionsTable.columns,
+    tableValues: UserExpressionsTable.values,
   },
 ];
 
