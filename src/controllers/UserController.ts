@@ -7,6 +7,7 @@ import type {
   AddExpressionParams,
   UpdateExpressionParams,
   DeleteExpressionParams,
+  GetExpressionListParams,
 } from '@/services/UserService';
 import UserService from '@/services/UserService';
 import { formatSuccessResponse, formatFailureResponse } from '@/utils/response';
@@ -115,9 +116,14 @@ export default class UserController {
   static async getExpressionList(ctx: Context) {
     try {
       // 准备请求参数
-      const userEmail = ctx.query.userEmail as string;
+      const params: GetExpressionListParams = {
+        userEmail: ctx.query.userEmail as string,
+        expressionType: Number(ctx.query.expressionType as string),
+        sTime: ctx.query.sTime as string,
+        eTime: ctx.query.eTime as string,
+      };
       // 发起请求
-      const expressionList = await UserService.getExpressionList({ userEmail });
+      const expressionList = await UserService.getExpressionList(params);
       // 返回结果
       ctx.body = formatSuccessResponse(expressionList);
     } catch (err) {

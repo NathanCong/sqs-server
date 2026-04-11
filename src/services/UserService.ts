@@ -1,4 +1,5 @@
 import Database from '@/utils/Database';
+import dayjs from 'dayjs';
 
 export interface RegisterParams {
   userName: string;
@@ -47,10 +48,13 @@ export interface AddExpressionParams {
 
 export interface GetExpressionListParams {
   userEmail: string;
+  expressionType: number;
+  sTime: string;
+  eTime: string;
 }
 
 export interface ExpressionListItem {
-  id: number;
+  expressionId: number;
   expressionType: number;
   expressionText: string;
   resultData: string;
@@ -229,9 +233,9 @@ export default class UserService {
       const { id } = rows[0];
       // 插入检索式
       const { rowCount } = await Database.query({
-        sql: `INSERT INTO user_expressions (login_users_id, expression_type, expression_text, result_data)
-              VALUES ($1, $2, $3, $4);`,
-        values: [id, expressionType, expressionText, resultData],
+        sql: `INSERT INTO user_expressions (login_users_id, expression_type, expression_text, result_data, creator)
+              VALUES ($1, $2, $3, $4, $5);`,
+        values: [id, expressionType, expressionText, resultData, userEmail],
       });
       if (Number(rowCount) < 1) {
         throw new Error('新增检索式失败');
@@ -246,6 +250,9 @@ export default class UserService {
    */
   static async getExpressionList({
     userEmail,
+    // expressionType,
+    // sTime,
+    // eTime,
   }: GetExpressionListParams): Promise<ExpressionListItem[]> {
     try {
       // 查询用户
@@ -264,17 +271,19 @@ export default class UserService {
         sql: `SELECT * FROM user_expressions WHERE login_users_id = $1;`,
         values: [id],
       });
-      // 返回检索式列表
-      return list.map(row => ({
-        id: row.id,
-        expressionType: row.expression_type,
-        expressionText: row.expression_text,
-        resultData: row.result_data,
-        creator: row.creator,
-        createdAt: row.created_at,
-        updater: row.updater,
-        updatedAt: row.updated_at,
-      }));
+      // 返回检索式列表（按创建时间倒序）
+      return list
+        .sort((a, b) => dayjs(b.created_at).diff(dayjs(a.created_at)))
+        .map(row => ({
+          expressionId: row.id,
+          expressionType: row.expression_type,
+          expressionText: row.expression_text,
+          resultData: row.result_data,
+          creator: row.creator,
+          createdAt: row.created_at && dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss'),
+          updater: row.updater,
+          updatedAt: row.updated_at && dayjs(row.updated_at).format('YYYY-MM-DD HH:mm:ss'),
+        }));
     } catch (error) {
       throw error;
     }
