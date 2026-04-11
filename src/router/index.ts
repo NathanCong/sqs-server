@@ -29,6 +29,14 @@ router.post('/user/poc', UserController.poc);
 router.get('/user/info/get', UserController.getUserInfo);
 // 用户 - 更新个人信息
 router.post('/user/info/update', UserController.updateUserInfo);
+// 用户 - 新增检索式
+router.post('/user/expression/add', UserController.addExpression);
+// 用户 - 获取检索式列表
+router.get('/user/expression/list', UserController.getExpressionList);
+// 用户 - 更新检索式
+router.post('/user/expression/update', UserController.updateExpression);
+// 用户 - 删除检索式
+router.post('/user/expression/delete', UserController.deleteExpression);
 
 // 万象云 - 检索专利 API
 router.post('/wanxiang/search/patents', WanXiangController.searchPatents);

@@ -38,6 +38,38 @@ export interface UpdateUserInfoParams {
   userPassword: string;
 }
 
+export interface AddExpressionParams {
+  userEmail: string;
+  expressionType: number;
+  expressionText: string;
+  resultData: string;
+}
+
+export interface GetExpressionListParams {
+  userEmail: string;
+}
+
+export interface ExpressionListItem {
+  id: number;
+  expressionType: number;
+  expressionText: string;
+  resultData: string;
+  creator: string;
+  createdAt: string;
+  updater: string;
+  updatedAt: string;
+}
+
+export interface UpdateExpressionParams {
+  expressionId: number;
+  expressionText: string;
+  resultData: string;
+}
+
+export interface DeleteExpressionParams {
+  expressionId: number;
+}
+
 /**
  * 用户服务
  */
@@ -168,6 +200,122 @@ export default class UserService {
       // 更新用户信息失败
       if (Number(rowCount) < 1) {
         throw new Error('更新用户信息失败');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * 用户 - 新增检索式
+   */
+  static async addExpression({
+    userEmail,
+    expressionType,
+    expressionText,
+    resultData,
+  }: AddExpressionParams): Promise<void> {
+    try {
+      // 查询用户
+      const { rows } = await Database.query({
+        sql: `SELECT id FROM login_users WHERE user_email = $1;`,
+        values: [userEmail],
+      });
+      // 用户不存在
+      if (rows.length < 1) {
+        throw new Error('该用户未注册！');
+      }
+      // 获取用户信息
+      const { id } = rows[0];
+      // 插入检索式
+      const { rowCount } = await Database.query({
+        sql: `INSERT INTO user_expressions (login_users_id, expression_type, expression_text, result_data)
+              VALUES ($1, $2, $3, $4);`,
+        values: [id, expressionType, expressionText, resultData],
+      });
+      if (Number(rowCount) < 1) {
+        throw new Error('新增检索式失败');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * 用户 - 获取检索式列表
+   */
+  static async getExpressionList({
+    userEmail,
+  }: GetExpressionListParams): Promise<ExpressionListItem[]> {
+    try {
+      // 查询用户
+      const { rows } = await Database.query({
+        sql: `SELECT id FROM login_users WHERE user_email = $1;`,
+        values: [userEmail],
+      });
+      // 用户不存在
+      if (rows.length < 1) {
+        throw new Error('该用户未注册！');
+      }
+      // 获取用户信息
+      const { id } = rows[0];
+      // 查询检索式列表
+      const { rows: list } = await Database.query({
+        sql: `SELECT * FROM user_expressions WHERE login_users_id = $1;`,
+        values: [id],
+      });
+      // 返回检索式列表
+      return list.map(row => ({
+        id: row.id,
+        expressionType: row.expression_type,
+        expressionText: row.expression_text,
+        resultData: row.result_data,
+        creator: row.creator,
+        createdAt: row.created_at,
+        updater: row.updater,
+        updatedAt: row.updated_at,
+      }));
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * 用户 - 更新检索式
+   */
+  static async updateExpression({
+    expressionId,
+    expressionText,
+    resultData,
+  }: UpdateExpressionParams): Promise<void> {
+    try {
+      // 更新检索式
+      const { rowCount } = await Database.query({
+        sql: `UPDATE user_expressions SET expression_text = $1, result_data = $2 WHERE id = $3;`,
+        values: [expressionText, resultData, expressionId],
+      });
+      // 更新检索式失败
+      if (Number(rowCount) < 1) {
+        throw new Error('更新检索式失败');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * 用户 - 删除检索式
+   */
+  static async deleteExpression({ expressionId }: DeleteExpressionParams): Promise<void> {
+    try {
+      // 删除检索式
+      const { rowCount } = await Database.query({
+        sql: `DELETE FROM user_expressions WHERE id = $1;`,
+        values: [expressionId],
+      });
+      // 删除检索式失败
+      if (Number(rowCount) < 1) {
+        throw new Error('删除检索式失败');
       }
     } catch (error) {
       throw error;
