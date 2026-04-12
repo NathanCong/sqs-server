@@ -48,9 +48,8 @@ export interface AddExpressionParams {
 
 export interface GetExpressionListParams {
   userEmail: string;
-  expressionType: number;
-  sTime: string;
-  eTime: string;
+  expressionType?: number;
+  createdAt?: string;
 }
 
 export interface ExpressionListItem {
@@ -65,6 +64,7 @@ export interface ExpressionListItem {
 }
 
 export interface UpdateExpressionParams {
+  userEmail: string;
   expressionId: number;
   expressionText: string;
   resultData: string;
@@ -211,7 +211,7 @@ export default class UserService {
   }
 
   /**
-   * 用户 - 新增检索式
+   * 用户 - 新增表达式
    */
   static async addExpression({
     userEmail,
@@ -231,14 +231,14 @@ export default class UserService {
       }
       // 获取用户信息
       const { id } = rows[0];
-      // 插入检索式
+      // 插入表达式
       const { rowCount } = await Database.query({
         sql: `INSERT INTO user_expressions (login_users_id, expression_type, expression_text, result_data, creator)
               VALUES ($1, $2, $3, $4, $5);`,
         values: [id, expressionType, expressionText, resultData, userEmail],
       });
       if (Number(rowCount) < 1) {
-        throw new Error('新增检索式失败');
+        throw new Error('新增表达式失败');
       }
     } catch (error) {
       throw error;
@@ -246,13 +246,12 @@ export default class UserService {
   }
 
   /**
-   * 用户 - 获取检索式列表
+   * 用户 - 获取表达式列表
    */
   static async getExpressionList({
     userEmail,
-    // expressionType,
-    // sTime,
-    // eTime,
+    expressionType,
+    createdAt,
   }: GetExpressionListParams): Promise<ExpressionListItem[]> {
     try {
       // 查询用户
@@ -266,46 +265,64 @@ export default class UserService {
       }
       // 获取用户信息
       const { id } = rows[0];
-      // 查询检索式列表
-      const { rows: list } = await Database.query({
-        sql: `SELECT * FROM user_expressions WHERE login_users_id = $1;`,
-        values: [id],
-      });
-      // 返回检索式列表（按创建时间倒序）
-      return list
-        .sort((a, b) => dayjs(b.created_at).diff(dayjs(a.created_at)))
-        .map(row => ({
-          expressionId: row.id,
-          expressionType: row.expression_type,
-          expressionText: row.expression_text,
-          resultData: row.result_data,
-          creator: row.creator,
-          createdAt: row.created_at && dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss'),
-          updater: row.updater,
-          updatedAt: row.updated_at && dayjs(row.updated_at).format('YYYY-MM-DD HH:mm:ss'),
-        }));
+      // 查询表达式列表（可选条件动态拼接，占位符仍与 values 一一对应）
+      const listValues: unknown[] = [id];
+      const extraClauses: string[] = [];
+      let p = 2;
+      if (expressionType) {
+        extraClauses.push(`expression_type = $${p}`);
+        listValues.push(expressionType);
+        p += 1;
+      }
+      if (createdAt) {
+        extraClauses.push(`created_at::date = $${p}::date`);
+        listValues.push(createdAt);
+        p += 1;
+      }
+      const whereExtra = extraClauses.length > 0 ? ` AND ${extraClauses.join(' AND ')}` : '';
+      const sql = `SELECT * FROM user_expressions WHERE login_users_id = $1${whereExtra} ORDER BY created_at DESC;`;
+      const values = listValues;
+      const { rows: list } = await Database.query({ sql, values });
+      // 返回表达式列表（按创建时间倒序）
+      return list.map(row => ({
+        expressionId: row.id,
+        expressionType: row.expression_type,
+        expressionText: row.expression_text,
+        resultData: row.result_data,
+        creator: row.creator,
+        createdAt: row.created_at && dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss'),
+        updater: row.updater,
+        updatedAt: row.updated_at && dayjs(row.updated_at).format('YYYY-MM-DD HH:mm:ss'),
+      }));
     } catch (error) {
       throw error;
     }
   }
 
   /**
-   * 用户 - 更新检索式
+   * 用户 - 更新表达式
    */
   static async updateExpression({
+    userEmail,
     expressionId,
     expressionText,
     resultData,
   }: UpdateExpressionParams): Promise<void> {
     try {
-      // 更新检索式
+      // 更新表达式
       const { rowCount } = await Database.query({
-        sql: `UPDATE user_expressions SET expression_text = $1, result_data = $2 WHERE id = $3;`,
-        values: [expressionText, resultData, expressionId],
+        sql: `UPDATE user_expressions SET expression_text = $1, result_data = $2, updater = $3, updated_at = $4 WHERE id = $5;`,
+        values: [
+          expressionText,
+          resultData,
+          userEmail,
+          dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          expressionId,
+        ],
       });
-      // 更新检索式失败
+      // 更新表达式失败
       if (Number(rowCount) < 1) {
-        throw new Error('更新检索式失败');
+        throw new Error('更新表达式失败');
       }
     } catch (error) {
       throw error;
@@ -313,18 +330,18 @@ export default class UserService {
   }
 
   /**
-   * 用户 - 删除检索式
+   * 用户 - 删除表达式
    */
   static async deleteExpression({ expressionId }: DeleteExpressionParams): Promise<void> {
     try {
-      // 删除检索式
+      // 删除表达式
       const { rowCount } = await Database.query({
         sql: `DELETE FROM user_expressions WHERE id = $1;`,
         values: [expressionId],
       });
-      // 删除检索式失败
+      // 删除表达式失败
       if (Number(rowCount) < 1) {
-        throw new Error('删除检索式失败');
+        throw new Error('删除表达式失败');
       }
     } catch (error) {
       throw error;

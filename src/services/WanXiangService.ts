@@ -80,9 +80,36 @@ export default class WanXiangService {
   }
 
   /**
+   * 专利详情 - 基本信息 API
+   */
+  static async getPatentBasicInfo(params: { id: string }): Promise<unknown> {
+    const requestParams = { access_token: WanXiangService.accessToken };
+    try {
+      const res = await get(
+        `https://api.wanxiangyun.net/api/db/basicinfo/${params.id}`,
+        requestParams
+      );
+      const { result_code, msg, data } = res.data;
+      // token 失效
+      if (String(result_code) === '40004') {
+        WanXiangService.accessToken = await WanXiangService.getAccessToken();
+        return await WanXiangService.getPatentBasicInfo(params);
+      }
+      // 请求失败，报错
+      if (String(result_code) !== '200') {
+        throw new Error(msg);
+      }
+      // 请求成功，返回 data
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  /**
    * 专利详情 - 说明书 API
    */
-  static async getPatentManual(params: { id: string }): Promise<unknown> {
+  static async getPatentDesc(params: { id: string }): Promise<unknown> {
     const requestParams = { access_token: WanXiangService.accessToken };
     try {
       const res = await get(`https://api.wanxiangyun.net/api/db/desc/${params.id}`, requestParams);
@@ -90,7 +117,31 @@ export default class WanXiangService {
       // token 失效
       if (String(result_code) === '40004') {
         WanXiangService.accessToken = await WanXiangService.getAccessToken();
-        return await WanXiangService.getPatentManual(params);
+        return await WanXiangService.getPatentDesc(params);
+      }
+      // 请求失败，报错
+      if (String(result_code) !== '200') {
+        throw new Error(msg);
+      }
+      // 请求成功，返回 data
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  /**
+   * 专利详情 - 权利要求 API
+   */
+  static async getPatentClaim(params: { id: string }): Promise<unknown> {
+    const requestParams = { access_token: WanXiangService.accessToken };
+    try {
+      const res = await get(`https://api.wanxiangyun.net/api/db/claim/${params.id}`, requestParams);
+      const { result_code, msg, data } = res.data;
+      // token 失效
+      if (String(result_code) === '40004') {
+        WanXiangService.accessToken = await WanXiangService.getAccessToken();
+        return await WanXiangService.getPatentClaim(params);
       }
       // 请求失败，报错
       if (String(result_code) !== '200') {
