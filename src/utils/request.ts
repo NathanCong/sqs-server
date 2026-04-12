@@ -41,9 +41,10 @@ request.interceptors.response.use(
 
 /**
  * GET 请求
+ * @param config 可传 responseType: 'arraybuffer' | 'stream' 等以接收二进制或流
  */
-export function get(url: string, params?: unknown) {
-  return request.get(url, { params });
+export function get(url: string, params?: unknown, config?: AxiosRequestConfig) {
+  return request.get(url, { ...config, params });
 }
 
 /**

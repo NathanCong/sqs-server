@@ -39,8 +39,12 @@ router.post('/user/expression/update', UserController.updateExpression);
 router.post('/user/expression/delete', UserController.deleteExpression);
 
 // 万象云 - 检索专利 API
-router.post('/wanxiang/search/patents', WanXiangController.searchPatents);
+router.post('/wanxiang/patent/search', WanXiangController.searchPatents);
+// 万象云 - 专利详情 - 基本信息 API
+router.get('/wanxiang/patent/detail/basicinfo', WanXiangController.getPatentBasicInfo);
 // 万象云 - 专利详情 - 说明书 API
-router.post('/wanxiang/getPatentManual', WanXiangController.getPatentManual);
+router.get('/wanxiang/patent/detail/desc', WanXiangController.getPatentDesc);
+// 万象云 - 专利详情 - 权利要求 API
+router.get('/wanxiang/patent/detail/claim', WanXiangController.getPatentClaim);
 
 export default router;

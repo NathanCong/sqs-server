@@ -119,8 +119,7 @@ export default class UserController {
       const params: GetExpressionListParams = {
         userEmail: ctx.query.userEmail as string,
         expressionType: Number(ctx.query.expressionType as string),
-        sTime: ctx.query.sTime as string,
-        eTime: ctx.query.eTime as string,
+        createdAt: ctx.query.createdAt as string,
       };
       // 发起请求
       const expressionList = await UserService.getExpressionList(params);
