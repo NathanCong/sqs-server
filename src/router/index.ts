@@ -18,6 +18,11 @@ router.post(
   '/assistant/patent/rewrite/helper/stream',
   AssistantController.helperPatentRewriteStream
 );
+// 大模型 - 专利质量评价接口
+router.post(
+  '/assistant/patent/quality/evaluation',
+  AssistantController.helperPatentQualityEvaluation
+);
 
 // 用户 - 注册
 router.post('/user/register', UserController.register);
