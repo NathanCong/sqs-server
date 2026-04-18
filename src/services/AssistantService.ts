@@ -33,6 +33,10 @@ export interface HelperPatentStreamRequestParams {
   code: string;
 }
 
+export interface HelperPatentQualityEvaluationRequestParams {
+  patent_id: string;
+}
+
 /**
  * 大模型助理服务
  * 接口文档：https://docs.apipost.net/docs/detail/5f454bb09851000?target_id=2a2b90173f612e
@@ -121,5 +125,17 @@ export default class AssistantService {
         })
         .catch(err => reject(err));
     });
+  }
+
+  /**
+   * 专利质量评价服务
+   */
+  static async helperPatentQualityEvaluation(params: HelperPatentQualityEvaluationRequestParams) {
+    try {
+      const res = await post('/patent-quality', params);
+      return res.data;
+    } catch (err) {
+      throw err;
+    }
   }
 }

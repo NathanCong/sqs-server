@@ -5,6 +5,7 @@ import type {
   HelperPatentRewriteStreamRequestParams,
   SearchDisclosureRequestParams,
   HelperPatentStreamRequestParams,
+  HelperPatentQualityEvaluationRequestParams,
 } from '@/services/AssistantService';
 import AssistantService from '@/services/AssistantService';
 import { PassThrough } from 'stream';
@@ -134,5 +135,22 @@ export default class AssistantController {
     AssistantService.helperPatentStream(params, onChunk).finally(() => {
       stream.end();
     });
+  }
+
+  /**
+   * 专利质量评价接口
+   * 接口协议：POST
+   * 接口路径：/assistant/helper/patent/quality/evaluation
+   */
+  static async helperPatentQualityEvaluation(ctx: Context) {
+    try {
+      const params = ctx.request.body as HelperPatentQualityEvaluationRequestParams;
+      // 发起请求
+      const result = await AssistantService.helperPatentQualityEvaluation(params);
+      // 返回结果
+      ctx.body = formatSuccessResponse(result);
+    } catch (err) {
+      ctx.body = formatFailureResponse(err instanceof Error ? err.message : '未知错误');
+    }
   }
 }
